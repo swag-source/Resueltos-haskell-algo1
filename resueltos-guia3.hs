@@ -1,4 +1,14 @@
--- Ejercicio 3 -- 
+-- Ejercicio 2 -- 
+
+{- 
+Especificación:
+    problema sumaDistintos (x : Z, y : Z, z: Z) : Z {
+        pre(True)
+        post(res = x + y + z <=> (x =/= y) ^ (y =/= z) ^ (x =/= z))
+    }
+ -}
+
+
 
 esMultiploDe :: Int -> Int -> Bool
 esMultiploDe n m | mod n m == 0 = True
@@ -6,14 +16,28 @@ esMultiploDe n m | mod n m == 0 = True
 
 
 
+digitoUnidades :: Int -> Int
+digitoUnidades n | n < 10 = n
+                 | n `mod` 10 < 10 = n `mod` 10
+                 | otherwise = (n `mod` 100) `mod` 10
 
 
-k :: Int -> Int -> Int
-k a b = -(a) `div` b 
+
+digitoDecenas :: Int -> Int
+digitoDecenas n | n < 10 = n
+                | mod n 100 < 10 = 0 
+                | otherwise =  div ((n `mod` 100) - ((n `mod` 100) `mod` 10)) 10
+
+-- Ejercicio 3 --
+
+hallarK :: Int -> Int -> Int
+hallarK a b = -(a) `div` b 
 
 estanRelacionados :: Int -> Int -> Bool
-estanRelacionados a b | (a * a + a * b * k a b ) == 0 = True
+estanRelacionados a b | (a * a + a * b * hallarK a b ) == 0 = True
                       | otherwise = False
+
+
 
 -- Ejercicio 4 -- 
 
@@ -69,7 +93,7 @@ sumaTerna (x:xs) = x + sum (xs)
 Especificación:
     problema sumarSoloMultiplos (s: seq<ZxZxZ> , n: Z) : Z {
         pre(|s| =/= 0)
-        post(res = para todo i en Z, sumo el elemento en la posición i si y solo si s[i] es congruente a 0 mod n)))
+        post(res = ((∀i en Z)( suma_{i=0}{|s|-1} if esMultiploDe (s[i] n)  then s[i] else 0 fi))
     }
 --}
 
@@ -132,6 +156,7 @@ sumaUltimosDosDigitos x = x `mod` 10 + div x 10 `mod` 10
 
 
 {-- Ejercicio 9 --}
+
 {-- especificación a) 
     problema f1 (n : Z) : Z {
         pre(True)
